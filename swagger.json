@@ -1,0 +1,555 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Gain Test",
+        "description": "Admin & Content Managment API",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "local"
+        }
+    ],
+    "tags": [
+        {
+            "name": "Admin & Content Managment System",
+            "description": "Admin & Content Managment System"
+        }
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/signup": {
+            "post": {
+                "tags": [
+                    "Sign up"
+                ],
+                "summary": "Create a new admin in system",
+                "requestBody": {
+                    "description": "Admin Object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/Admin"
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed. Bad post data."
+                    }
+                }
+            }
+        },
+        "/deleteadmin": {
+            "post": {
+                "tags": [
+                    "Delete admin"
+                ],
+                "parameters": [
+                    {
+                        "name": "Auth",
+                        "in": "header",
+                        "required": true,
+                        "description": "token",
+                        "type": "string",
+                        "schema":{
+                            "$ref":"#/definitions/Token"
+                        }
+
+                    }
+                ],
+                "summary": "Delete admin in system",
+                "requestBody": {
+                    "description": "Delete admin in system",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/deleteadmin"
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Admin silindi."
+                        
+                    },
+                    "400": {
+                        "description": "Failed. Bad post data."
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "tags": [
+                    "Login"
+                ],
+                "summary": "Login in system",
+                "requestBody": {
+                    "description": "Admin login system",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/Login"
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Login OK",
+                        "schema": {
+                            "$ref": "#/definitions/login"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed. Bad post data."
+                    }
+                }
+            }
+        },
+        "/getmovie/{id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "description": "ID of the movie that we want to match",
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "tags": [
+                    "Movie"
+                ],
+                "summary": "Get movie with given ID",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "Movie with id",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/movie"
+                        }
+                    },
+                    "404": {
+                        "description": "Failed. Movie not found."
+                    }
+                }
+            }
+        },
+        "/getseries/{id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "description": "ID of the series that we want to match",
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "tags": [
+                    "Series"
+                ],
+                "summary": "Get series with given ID",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "Series with id",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Series"
+                        }
+                    },
+                    "404": {
+                        "description": "Failed. Series not found."
+                    }
+                }
+            }
+        },
+        "/addmovie": {
+            "post": {
+                "tags": [
+                    "Add Movie"
+                ],
+                "parameters": [
+                    {
+                        "name": "Auth",
+                        "in": "header",
+                        "required": true,
+                        "description": "token",
+                        "type": "string",
+                        "schema":{
+                            "$ref":"#/definitions/Token"
+                        }
+
+                    }
+                ],
+                "summary": "Add movie in system",
+                "requestBody": {
+                    "description": "Add movie in system",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/AddMovie"
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Film Eklendi."
+                        
+                    },
+                    "400": {
+                        "description": "Failed. Bad post data."
+                    }
+                }
+            }
+        },
+        "/addseries": {
+            "post": {
+                "tags": [
+                    "Add Series"
+                ],
+                "parameters": [
+                    {
+                        "name": "Auth",
+                        "in": "header",
+                        "required": true,
+                        "description": "token",
+                        "type": "string",
+                        "schema":{
+                            "$ref":"#/definitions/Token"
+                        }
+
+                    }
+                ],
+                "summary": "Add series in system",
+                "requestBody": {
+                    "description": "Add series in system",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/AddSeries"
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Dizi Eklendi."
+                        
+                    },
+                    "400": {
+                        "description": "Failed. Bad post data."
+                    }
+                }
+            }
+        },
+        "/addseason/{id}/{season}": {
+            "post": {
+                "tags": [
+                    "Add season in Series"
+                ],
+                "summary": "Add season in Series",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Series ID",
+                        "type": "string"
+                    },
+                    {
+                        "name": "season",
+                        "in": "path",
+                        "required": true,
+                        "description": "Season ID",
+                        "type": "string"
+                    },
+                    {
+                        "name": "Auth",
+                        "in": "header",
+                        "required": true,
+                        "description": "token",
+                        "type": "string",
+                        "schema":{
+                            "$ref":"#/definitions/Token"
+                        }
+    
+                    }
+                ],
+                "requestBody": {
+                    "description": "Season Object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/Season"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Sezon eklendi!"
+                        
+                    },
+                    "404": {
+                        "description": "Failed. Series not found."
+                    }
+                }
+            }
+        },
+        "/addepisode/{id}/{season}/{episode}": {
+            "post": {
+                "tags": [
+                    "Add episode in Series Seasons"
+                ],
+                "summary": "Add episode in Series Seasons",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "Series ID",
+                        "type": "string"
+                    },
+                    {
+                        "name": "season",
+                        "in": "path",
+                        "required": true,
+                        "description": "Season ID",
+                        "type": "string"
+                    },
+                    {
+                        "name": "episode",
+                        "in": "path",
+                        "required": true,
+                        "description": "Season ID",
+                        "type": "string"
+                    },
+                    {
+                        "name": "Auth",
+                        "in": "header",
+                        "required": true,
+                        "description": "token",
+                        "type": "string",
+                        "schema":{
+                            "$ref":"#/definitions/Token"
+                        }
+    
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sezon eklendi!",
+                        "schema": {
+                            "$ref": "#/definitions/Episode"
+                        }
+                    },
+                    "404": {
+                        "description": "Failed. Series not found."
+                    }
+                }
+            }
+        }
+        
+    },
+    "definitions": {
+        "id": {
+            "properties": {
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "Token":{
+            "properties": {
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "Admin": {
+            "type": "object",
+            "properties": {
+                "username": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "birthDate": {
+                    "type": "string"
+                }
+            }
+        },
+        "Login": {
+            "type": "object",
+            "properties": {
+                "username": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "deleteadmin": {
+            "type": "object",
+            "properties": {
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "Movie": {
+            "type": "object",
+            "properties": {
+                "movieName": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                }
+            }
+        },
+        "AddMovie": {
+            "type": "object",
+            "properties": {
+                "movieName": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                }
+            }
+        },
+        "AddSeries": {
+            "type": "object",
+            "properties": {
+                "seriesName": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                }
+            }
+        },
+        "Series": {
+            "type": "object",
+            "properties": {
+                "seriesName": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "seasons": "object",
+                "properties": {
+                    "episodes": "object",
+                    "properties": {
+                        "episodesName": {
+                            "type": "string"
+                        },
+                        "description": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "Season": {
+            "type": "object",
+            "properties": {
+                "seasonName": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                }
+            }
+        },
+        "Episode": {
+            "type": "object",
+            "properties": {
+                "episodeName": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                }
+            }
+        },
+        "Cats": {
+            "type": "object",
+            "properties": {
+                "cats": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/Cat"
+                    }
+                }
+            }
+        }
+    }
+}

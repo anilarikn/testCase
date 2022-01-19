@@ -1,5 +1,8 @@
 const admin = require("firebase-admin");
 const serviceAccount = require("./admin.json");
+const swaggerDocument = require("./swagger.json");
+const swaggerUi = require("swagger-ui-express");
+
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -13,20 +16,22 @@ app.use(express.json());
 var jwt = require("jsonwebtoken");
 const { values } = require("lodash");
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 const addDays = (date, days) => {
   var result = new Date(date);
   result.setDate(result.getDate() + days);
   return result.getTime();
 };
 const createToken = (username) => {
-  const deneme = "secret_key";
+  const secret = "secret_key";
   const token = jwt.sign(
     {
       _username: username,
       dateNow: Date.now(),
       endDate: addDays(Date.now(), 3),
     },
-    deneme,
+    secret,
     { algorithm: "HS256" }
   );
   return token;
@@ -39,16 +44,16 @@ function validateToken(token) {
   }
   const now = Math.floor(Date.now() / (1000 * 60 * 60 * 24));
   return tokenBody.endDate > Date.now();
-}
+};
 
 const users = db.collection("users");
 app.post("/login", async function (req, res) {
   const reqBody = req.body;
-  const username = await users
+  const check = await users
     .where("username", "==", reqBody.username)
     .where("password", "==", reqBody.password)
     .get();
-  if (username.empty) {
+  if (check.empty) {
     res.send("Kullanıcı adı veya şifre eşleşmedi.");
   } else {
     const token = createToken(reqBody.username);
@@ -185,7 +190,6 @@ app.post("/addepisode/:id/:season/:episode", async function (req, res) {
           .collection(season)
           .doc(episode)
           .set(requestBody);
-        //userDoc.add(requestBody);
         res.send("Bölüm eklendi!.");
       }
     } else {
@@ -218,7 +222,7 @@ async function getEpisodes(id, seasonId) {
     return { [doc.id]: data };
   });
 }
-
+const allData =[]
 app.get("/getseries/:id", async function (req, res) {
   const reqParams = req.params;
   const id = reqParams.id;
@@ -228,15 +232,19 @@ app.get("/getseries/:id", async function (req, res) {
     res.status(400).send("Dizi bulunamadı.");
   } else {
     const seasons = await series.listCollections();
-    const seasonsIds = await seasons.map(async (season) => {
-      const episodes = await getEpisodes(id, season.id);
-      console.log("patates", episodes);
-      return { [season.id]: episodes };
+    Promise.all(seasons.map(async (season) => {
+      await getEpisodes(id, season.id).then((values)=>{
+        allData.push({[season.id]:JSON.stringify(values)});
+      });
+    })).then(()=>{
+      allData.forEach((data)=>{
+        Object.keys(data).forEach((seasonKey)=>{
+          data[seasonKey] = JSON.parse(data[seasonKey]);
+        })
+      });
+      res.send({...data.data(), seasons: allData})
     });
-    Promise.all(seasonsIds).then((values) => {
-      console.log(values);
-    });
-    res.send(data.data());
+    
   }
 });
 
