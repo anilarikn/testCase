@@ -248,4 +248,6 @@ app.get("/getseries/:id", async function (req, res) {
   }
 });
 
-app.listen(8000);
+const port = parseInt(process.env.PORT || '8000')
+console.log("Port:" , port);
+app.listen(port);
