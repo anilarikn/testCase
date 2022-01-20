@@ -399,6 +399,17 @@
     
                     }
                 ],
+                "requestBody": {
+                    "description": "Season Object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/Season"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "Sezon eklendi!",
