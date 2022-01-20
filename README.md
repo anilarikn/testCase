@@ -1,20 +1,23 @@
 # testCase 
-###Admin§Content Management
 
-## Setup
+<h1>Admin§Content Management<h1>
+
+  <h3> Setup </h3>
 To run this project, install it locally using npm:
 
 ```
 $ npm install
 $ npm start
 
-or
-
+ or
+ 
+ $ docker run -p :8000 -d testcase
+  
 ```
-$ docker run -p :8000 -d testcase
 
 
-##Features
+
+<h3>Features</h3>
 - Admin sign up
 - Admin login
 - Admin deletion
@@ -23,11 +26,11 @@ $ docker run -p :8000 -d testcase
 - Create Content (Movie or series)
 - Adding seasons and episodes
 
-##I Use
+<h3>I Use</h3>
 -Nodejs
 -Docker
 -Swagger UI for API Documentation
 
-## Swagger
+<h3> Swagger </h3>
 
 Visit `/api-docs` to view the OPENAPI document in Swagger-UI
