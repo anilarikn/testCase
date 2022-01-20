@@ -18,18 +18,18 @@ $ npm start
 
 
 <h3>Features</h3>
-- Admin sign up
-- Admin login
-- Admin deletion
-- Get Movie
-- Get Series
-- Create Content (Movie or series)
-- Adding seasons and episodes
+- Admin sign up <br>
+- Admin login <br>
+- Admin deletion <br>
+- Get Movie <br>
+- Get Series <br>
+- Create Content (Movie or series) <br>
+- Adding seasons and episodes <br>
 
 <h3>I Use</h3>
--Nodejs
--Docker
--Swagger UI for API Documentation
+-Nodejs <br>
+-Docker <br>
+-Swagger UI for API Documentation <br>
 
 <h3> Swagger </h3>
 
